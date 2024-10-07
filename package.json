@@ -1,0 +1,21 @@
+{
+  "name": "pixjs-matterjs",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.3",
+    "vite": "^5.4.8"
+  },
+  "dependencies": {
+    "@types/matter-js": "^0.19.7",
+    "@types/pixi.js": "^5.0.0",
+    "matter-js": "^0.20.0",
+    "pixi.js": "^8.4.1"
+  }
+}
