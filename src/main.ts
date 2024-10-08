@@ -55,8 +55,9 @@ class Canvas {
       await this.app.init({
         width: 610,
         height: 600,
-        backgroundColor: 0x0000ff,
+        backgroundColor: 'green',
         backgroundAlpha: 1,
+        antialias: true,
       });
       if (this.canvas) {
         this.canvas?.appendChild(this.app.canvas);
@@ -65,7 +66,7 @@ class Canvas {
 
       const boxGraphics = new Graphics()
         .roundRect(-90, -25, 180, 50, 30)
-        .fill({ color: "pink" });
+        .fill({ color: "#ea19c9" });
 
       const insta = new Sprite(Assets.get("insta"));
       insta.anchor.set(0.5, 0.5);
@@ -80,20 +81,20 @@ class Canvas {
 
       const boxGraphics1 = new Graphics()
         .roundRect(-75, -25, 150, 50, 30)
-        .fill({ color: "pink" });
+        .fill({ color: "#ea19c9" });
       const boxGraphics2 = new Graphics()
         .roundRect(-75, -25, 150, 50, 30)
-        .fill({ color: "pink" });
+        .fill({ color: "#ea19c9" });
 
       const boxGraphics3 = new Graphics()
         .roundRect(-75, -25, 150, 50, 30)
-        .fill({ color: "pink" });
+        .fill({ color: "#ea19c9" });
       const boxGraphics4 = new Graphics()
         .roundRect(-80, -25, 160, 50, 30)
-        .fill({ color: "pink" });
+        .fill({ color: "#ea19c9" });
       const boxGraphics5 = new Graphics()
         .roundRect(-80, -25, 160, 50, 30)
-        .fill({ color: "pink" });
+        .fill({ color: "#ea19c9" });
 
       const groundGraphics = new Graphics()
         .rect(-300, -20, 600, 40)
@@ -168,9 +169,6 @@ class Canvas {
         mouse: mouse,
         constraint: {
           stiffness: 0.2,
-          render: {
-            visible: false,
-          },
         },
       });
 
