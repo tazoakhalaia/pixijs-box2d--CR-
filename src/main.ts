@@ -95,11 +95,11 @@ class Canvas {
           graphic.rotation = angle;
         });
       });
-      this.setupMouseEvents(dynamicBoxes);
+      this.setupMouseEvents(dynamicBoxes, boxGraphics);
     });
   }
 
-  setupMouseEvents(dynamicBoxes: any[]) {
+  setupMouseEvents(dynamicBoxes: any[], boxGraphics: any[]) {
     let mouseX = 0,
       mouseY = 0;
     let isMoved = false;
@@ -129,7 +129,8 @@ class Canvas {
       mouseY = event.offsetY / 30;
 
       let isHovering = false;
-      dynamicBoxes.forEach((box) => {
+
+      dynamicBoxes.forEach((box, index) => {
         const fixture = box.GetFixtureList();
         const shape = fixture.GetShape();
 
@@ -137,8 +138,19 @@ class Canvas {
           box.GetTransform(),
           new b2Vec2(mouseX, mouseY)
         );
+        const graphic = boxGraphics[index];
+
         if (isInside) {
           isHovering = true;
+          const boxGraphic = graphic.getChildAt(0) as Graphics;
+          boxGraphic.clear();
+          boxGraphic.roundRect(-80, -25, 160, 50, 30);
+          boxGraphic.fill({ color: 0x0000ff });
+        } else {
+          const boxGraphic = graphic.getChildAt(0) as Graphics;
+          boxGraphic.clear();
+          boxGraphic.roundRect(-80, -25, 160, 50, 30);
+          boxGraphic.fill({ color: 0xea19c9 });
         }
       });
 
