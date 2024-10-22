@@ -53,15 +53,6 @@ class Canvas {
       }
       (globalThis as any).__PIXI_APP__ = this.app;
 
-      const insta = new Sprite(Assets.get("insta"));
-      insta.anchor.set(0.5, 0.5);
-      insta.width = 20;
-      insta.height = 20;
-      insta.x = -40;
-      insta.y = 0;
-
-      this.isntaText.anchor.set(0.5, 0.5);
-
       this.createStaticBox(300, 580, 600, 50);
       this.createStaticBox(0, 300, 40, 600);
       this.createStaticBox(600, 300, 40, 600);
@@ -76,13 +67,22 @@ class Canvas {
         this.createDynamicBox(500, 300, 160, 50),
       ];
       const boxGraphics = dynamicBoxes.map(() => {
+        const cont = new Container();
+        const insta = new Sprite(Assets.get("insta"));
+        insta.anchor.set(0.5, 0.5);
+        insta.width = 20;
+        insta.height = 20;
+        insta.x = -40;
+        insta.y = 0;
+
+        this.isntaText.anchor.set(0.5, 0.5);
         const box = new Graphics()
           .roundRect(-80, -25, 160, 50, 30)
           .fill({ color: 0xea19c9 });
-        return box;
+        cont.addChild(box, insta);
+        return cont;
       });
-      this.cont.addChild(insta);
-      this.app.stage.addChild(this.cont, ...boxGraphics);
+      this.app.stage.addChild(...boxGraphics);
 
       this.app.ticker.add(() => {
         this.world.Step(1 / 30, 10, 10);
@@ -95,19 +95,20 @@ class Canvas {
           graphic.rotation = angle;
         });
       });
-      this.setupMouseEvents(dynamicBoxes, boxGraphics);
+      this.setupMouseEvents(dynamicBoxes);
     });
   }
 
-  setupMouseEvents(dynamicBoxes: any[], boxGraphics: any[]) {
+  setupMouseEvents(dynamicBoxes: any[]) {
     let mouseX = 0,
       mouseY = 0;
+    let isMoved = false;
 
     this.app.canvas.addEventListener("mousedown", (event: MouseEvent) => {
       mouseX = event.offsetX / 30;
       mouseY = event.offsetY / 30;
 
-      dynamicBoxes.forEach((box) => {
+      dynamicBoxes.forEach((box, index) => {
         const fixture = box.GetFixtureList();
         const shape = fixture.GetShape();
 
@@ -118,23 +119,54 @@ class Canvas {
         if (isInside) {
           this.selectedBox = box;
           this.createMouseJoint(mouseX, mouseY, box);
+          isMoved = false;
         }
       });
     });
 
     this.app.canvas.addEventListener("mousemove", (event: MouseEvent) => {
+      mouseX = event.offsetX / 30;
+      mouseY = event.offsetY / 30;
+
+      let isHovering = false;
+      dynamicBoxes.forEach((box) => {
+        const fixture = box.GetFixtureList();
+        const shape = fixture.GetShape();
+
+        const isInside = shape.TestPoint(
+          box.GetTransform(),
+          new b2Vec2(mouseX, mouseY)
+        );
+        if (isInside) {
+          isHovering = true;
+        }
+      });
+
+      this.app.canvas.style.cursor = isHovering ? "pointer" : "default";
+
       if (this.mouseJoint) {
-        mouseX = event.offsetX / 30;
-        mouseY = event.offsetY / 30;
         this.mouseJoint.SetTarget(new b2Vec2(mouseX, mouseY));
+        isMoved = true;
       }
     });
 
     this.app.canvas.addEventListener("mouseup", () => {
       if (this.mouseJoint) {
+        const index = dynamicBoxes.indexOf(this.selectedBox);
+        if (!isMoved && index !== -1) {
+          switch (index) {
+            case 0:
+              window.open("https://www.facebook.com", "_blank");
+              break;
+            default:
+              break;
+          }
+        }
+
         this.world.DestroyJoint(this.mouseJoint);
         this.mouseJoint = null;
         this.selectedBox = null;
+        isMoved = false;
       }
     });
 
@@ -143,7 +175,10 @@ class Canvas {
         this.world.DestroyJoint(this.mouseJoint);
         this.mouseJoint = null;
         this.selectedBox = null;
+        isMoved = false;
       }
+
+      this.app.canvas.style.cursor = "default";
     });
   }
 
