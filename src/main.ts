@@ -73,7 +73,7 @@ class Canvas {
 
       const dynamicBoxes = [
         this.createDynamicBox(45, 100, 150, 50),
-        this.createDynamicBox(230, 150, 150, 50),
+        this.createDynamicBox(220, 150, 150, 50),
         this.createDynamicBox(250, 1, 150, 50),
         this.createDynamicBox(420, 10, 150, 50),
         this.createDynamicBox(340, 130, 160, 50),
@@ -190,6 +190,21 @@ class Canvas {
             case 0:
               window.open("https://www.youtube.com", "_blank");
               break;
+            case 1:
+              window.open("https://www.instagram.com", "_blank");
+              break;
+            case 2:
+              window.open("https://www.gmail.com", "_blank");
+              break;
+            case 3:
+              window.open("https://www.facbook.com", "_blank");
+              break;
+            case 4:
+              window.open("https://www.tiktok.com", "_blank");
+              break;
+            case 5:
+              window.open("https://www.linkedin.com", "_blank");
+              break;
             default:
               break;
           }
@@ -234,19 +249,44 @@ class Canvas {
     const body = this.world.CreateBody(bodyDef);
     body.CreateFixture(shape, 0);
   }
+  // createDynamicBox(x: number, y: number, width: number, height: number) {
+  //   const bodyDef = new b2BodyDef();
+  //   bodyDef.position.Set(x / 30, y / 30);
+  //   bodyDef.type = b2BodyType.b2_dynamicBody;
+
+  //   const shape = new b2PolygonShape();
+  //   shape.SetAsBox(width / 30 / 2, height / 30 / 2);
+
+  //   const body = this.world.CreateBody(bodyDef);
+  //   const fixtureDef = new b2FixtureDef();
+  //   fixtureDef.shape = shape;
+  //   fixtureDef.density = 1.0;
+  //   fixtureDef.friction = 0.3;
+  //   body.CreateFixture(fixtureDef);
+
+  //   return body;
+  // }
+
   createDynamicBox(x: number, y: number, width: number, height: number) {
     const bodyDef = new b2BodyDef();
     bodyDef.position.Set(x / 30, y / 30);
     bodyDef.type = b2BodyType.b2_dynamicBody;
 
+    bodyDef.linearDamping = 0.1;
+    bodyDef.angularDamping = 0.1;
+
     const shape = new b2PolygonShape();
     shape.SetAsBox(width / 30 / 2, height / 30 / 2);
 
     const body = this.world.CreateBody(bodyDef);
+
     const fixtureDef = new b2FixtureDef();
     fixtureDef.shape = shape;
     fixtureDef.density = 1.0;
     fixtureDef.friction = 0.3;
+
+    fixtureDef.restitution = 0.5;
+
     body.CreateFixture(fixtureDef);
 
     return body;
