@@ -79,7 +79,7 @@ class Canvas {
         this.createDynamicBox(340, 130, 160, 50),
         this.createDynamicBox(500, 300, 160, 50),
       ];
-      const boxGraphics = dynamicBoxes.map((e, index: number) => {
+      const boxGraphics = dynamicBoxes.map((_, index: number) => {
         const cont = new Container();
         const isntaText = new Text({
           text: this.texts[index],
