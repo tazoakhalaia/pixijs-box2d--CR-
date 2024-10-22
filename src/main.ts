@@ -22,9 +22,22 @@ class Canvas {
   private world = new b2World(new b2Vec2(0, 10));
   private selectedBox: any = null;
   private mouseJoint: any = null;
+  private images: any[] = [];
+  private texts = [
+    "youtube",
+    "instagram",
+    "email",
+    "facebook",
+    "tiktok",
+    "linkedin",
+  ];
   private assets = {
-    insta:
-      "https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg",
+    youtube: "public/Youtube_logo.png",
+    instagram: "public/images.jpg",
+    facebook: "public/Facebook_logo_(square) (1).png",
+    tiktok: "public/images.png",
+    linkedin: "public/LinkedIn_logo_initials.png",
+    email: "public/pngtree-email-icon-png-image_1757854.jpg",
   };
 
   constructor() {
@@ -33,6 +46,14 @@ class Canvas {
 
   init() {
     Assets.loadBundle(["assets"]).then(async () => {
+      this.images = [
+        this.assets.youtube,
+        this.assets.instagram,
+        this.assets.email,
+        this.assets.facebook,
+        this.assets.tiktok,
+        this.assets.linkedin,
+      ];
       await this.app.init({
         width: 610,
         height: 600,
@@ -58,15 +79,16 @@ class Canvas {
         this.createDynamicBox(340, 130, 160, 50),
         this.createDynamicBox(500, 300, 160, 50),
       ];
-      const boxGraphics = dynamicBoxes.map(() => {
+      const boxGraphics = dynamicBoxes.map((e, index: number) => {
         const cont = new Container();
         const isntaText = new Text({
-          text: "Intagram",
+          text: this.texts[index],
           style: {
             fontSize: 14,
           },
         });
-        const insta = new Sprite(Assets.get("insta"));
+
+        const insta = new Sprite(Assets.get(this.images[index]));
         insta.anchor.set(0.5, 0.5);
         insta.width = 20;
         insta.height = 20;
@@ -166,7 +188,7 @@ class Canvas {
         if (!isMoved && index !== -1) {
           switch (index) {
             case 0:
-              window.open("https://www.facebook.com", "_blank");
+              window.open("https://www.youtube.com", "_blank");
               break;
             default:
               break;
