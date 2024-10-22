@@ -19,7 +19,6 @@ import {
 class Canvas {
   private app = new Application();
   private canvas = document.querySelector(".app");
-  private cont = new Container();
   private world = new b2World(new b2Vec2(0, 10));
   private selectedBox: any = null;
   private mouseJoint: any = null;
@@ -108,7 +107,7 @@ class Canvas {
       mouseX = event.offsetX / 30;
       mouseY = event.offsetY / 30;
 
-      dynamicBoxes.forEach((box, index) => {
+      dynamicBoxes.forEach((box) => {
         const fixture = box.GetFixtureList();
         const shape = fixture.GetShape();
 
