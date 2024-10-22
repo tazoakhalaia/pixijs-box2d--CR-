@@ -27,13 +27,6 @@ class Canvas {
       "https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg",
   };
 
-  private isntaText = new Text({
-    text: "Intagram",
-    style: {
-      fontSize: 14,
-    },
-  });
-
   constructor() {
     Assets.addBundle("assets", this.assets);
   }
@@ -67,6 +60,12 @@ class Canvas {
       ];
       const boxGraphics = dynamicBoxes.map(() => {
         const cont = new Container();
+        const isntaText = new Text({
+          text: "Intagram",
+          style: {
+            fontSize: 14,
+          },
+        });
         const insta = new Sprite(Assets.get("insta"));
         insta.anchor.set(0.5, 0.5);
         insta.width = 20;
@@ -74,11 +73,11 @@ class Canvas {
         insta.x = -40;
         insta.y = 0;
 
-        this.isntaText.anchor.set(0.5, 0.5);
+        isntaText.anchor.set(0.5, 0.5);
         const box = new Graphics()
           .roundRect(-80, -25, 160, 50, 30)
           .fill({ color: 0xea19c9 });
-        cont.addChild(box, insta);
+        cont.addChild(box, insta, isntaText);
         return cont;
       });
       this.app.stage.addChild(...boxGraphics);
