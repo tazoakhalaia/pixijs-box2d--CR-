@@ -44,8 +44,8 @@ class Canvas {
       await this.app.init({
         width: 610,
         height: 600,
-        backgroundColor: "green",
-        backgroundAlpha: 1,
+        backgroundColor: "transparent",
+        backgroundAlpha: 0,
         antialias: true,
       });
       if (this.canvas) {
@@ -70,9 +70,9 @@ class Canvas {
       const dynamicBoxes = [
         this.createDynamicBox(45, 100, 150, 50),
         this.createDynamicBox(230, 150, 150, 50),
-        this.createDynamicBox(250, 0, 150, 50),
-        this.createDynamicBox(420, 0, 150, 50),
-        this.createDynamicBox(340, 20, 160, 50),
+        this.createDynamicBox(250, 1, 150, 50),
+        this.createDynamicBox(420, 10, 150, 50),
+        this.createDynamicBox(340, 130, 160, 50),
         this.createDynamicBox(500, 300, 160, 50),
       ];
       const boxGraphics = dynamicBoxes.map(() => {
@@ -155,7 +155,6 @@ class Canvas {
     mouseJointDef.maxForce = 1000.0 * body.GetMass();
     this.mouseJoint = this.world.CreateJoint(mouseJointDef);
   }
-  ////
 
   createStaticBox(x: number, y: number, width: number, height: number) {
     const bodyDef = new b2BodyDef();
