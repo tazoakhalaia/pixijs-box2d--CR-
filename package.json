@@ -15,6 +15,9 @@
   "dependencies": {
     "@types/matter-js": "^0.19.7",
     "@types/pixi.js": "^5.0.0",
+    "box2d.ts": "^1.0.2",
+    "cannon": "^0.6.2",
+    "cannon-es": "^0.20.0",
     "matter-js": "^0.20.0",
     "pixi.js": "^8.4.1"
   }
