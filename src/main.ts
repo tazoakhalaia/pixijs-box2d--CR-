@@ -103,7 +103,7 @@ class Canvas {
     let mouseX = 0,
       mouseY = 0;
 
-    this.app.view.addEventListener("mousedown", (event: MouseEvent) => {
+    this.app.canvas.addEventListener("mousedown", (event: MouseEvent) => {
       mouseX = event.offsetX / 30;
       mouseY = event.offsetY / 30;
 
