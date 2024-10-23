@@ -57,12 +57,12 @@ class Canvas {
       await this.app.init({
         width: 610,
         height: 600,
-        backgroundColor: "transparent",
-        backgroundAlpha: 0,
+        backgroundColor: "green",
+        backgroundAlpha: 1,
         antialias: true,
       });
       if (this.canvas) {
-        this.canvas?.appendChild(this.app.canvas);
+        this.canvas.appendChild(this.app.canvas);
       }
       (globalThis as any).__PIXI_APP__ = this.app;
 
@@ -124,7 +124,7 @@ class Canvas {
       mouseY = 0;
     let isMoved = false;
 
-    this.app.canvas.addEventListener("mousedown", (event: MouseEvent) => {
+    this.app.canvas.addEventListener("pointerdown", (event: MouseEvent) => {
       mouseX = event.offsetX / 30;
       mouseY = event.offsetY / 30;
 
@@ -144,7 +144,7 @@ class Canvas {
       });
     });
 
-    this.app.canvas.addEventListener("mousemove", (event: MouseEvent) => {
+    this.app.canvas.addEventListener("pointermove", (event: MouseEvent) => {
       mouseX = event.offsetX / 30;
       mouseY = event.offsetY / 30;
 
@@ -182,7 +182,7 @@ class Canvas {
       }
     });
 
-    this.app.canvas.addEventListener("mouseup", () => {
+    this.app.canvas.addEventListener("pointerup", () => {
       if (this.mouseJoint) {
         const index = dynamicBoxes.indexOf(this.selectedBox);
         if (!isMoved && index !== -1) {
@@ -217,7 +217,7 @@ class Canvas {
       }
     });
 
-    this.app.canvas.addEventListener("mouseleave", () => {
+    this.app.canvas.addEventListener("pointerleave", () => {
       if (this.mouseJoint) {
         this.world.DestroyJoint(this.mouseJoint);
         this.mouseJoint = null;
@@ -249,23 +249,6 @@ class Canvas {
     const body = this.world.CreateBody(bodyDef);
     body.CreateFixture(shape, 0);
   }
-  // createDynamicBox(x: number, y: number, width: number, height: number) {
-  //   const bodyDef = new b2BodyDef();
-  //   bodyDef.position.Set(x / 30, y / 30);
-  //   bodyDef.type = b2BodyType.b2_dynamicBody;
-
-  //   const shape = new b2PolygonShape();
-  //   shape.SetAsBox(width / 30 / 2, height / 30 / 2);
-
-  //   const body = this.world.CreateBody(bodyDef);
-  //   const fixtureDef = new b2FixtureDef();
-  //   fixtureDef.shape = shape;
-  //   fixtureDef.density = 1.0;
-  //   fixtureDef.friction = 0.3;
-  //   body.CreateFixture(fixtureDef);
-
-  //   return body;
-  // }
 
   createDynamicBox(x: number, y: number, width: number, height: number) {
     const bodyDef = new b2BodyDef();
