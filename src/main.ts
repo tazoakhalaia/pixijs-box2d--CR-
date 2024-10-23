@@ -18,7 +18,7 @@ import {
 
 class Canvas {
   private app = new Application();
-  private canvas = document.querySelector(".app");
+  private canvas = document.querySelector(".app") as HTMLElement;
   private world = new b2World(new b2Vec2(0, 10));
   private selectedBox: any = null;
   private mouseJoint: any = null;
@@ -34,11 +34,14 @@ class Canvas {
   private assets = {
     youtube: "public/Youtube_logo.png",
     instagram: "public/images.jpg",
-    facebook: "public/Facebook_logo_(square) (1).png",
+    facebook: "public/Facebook_logo.png",
     tiktok: "public/images.png",
     linkedin: "public/LinkedIn_logo_initials.png",
     email: "public/pngtree-email-icon-png-image_1757854.jpg",
   };
+
+  private scaleX = 1;
+  private scaleY = 1;
 
   constructor() {
     Assets.addBundle("assets", this.assets);
@@ -63,7 +66,9 @@ class Canvas {
       });
       if (this.canvas) {
         this.canvas.appendChild(this.app.canvas);
+        this.handleResize(this.canvas);
       }
+      this.addEvents(this.canvas);
       (globalThis as any).__PIXI_APP__ = this.app;
 
       this.createStaticBox(300, 580, 600, 50);
@@ -125,8 +130,14 @@ class Canvas {
     let isMoved = false;
 
     this.app.canvas.addEventListener("pointerdown", (event: MouseEvent) => {
-      mouseX = event.offsetX / 30;
-      mouseY = event.offsetY / 30;
+      let canvasWidth = 0;
+      if (this.canvas.offsetWidth >= 610) {
+        canvasWidth = 610;
+      } else {
+        canvasWidth = this.canvas.offsetWidth;
+      }
+      mouseX = event.offsetX / (canvasWidth / 21);
+      mouseY = event.offsetY / (canvasWidth / 21);
 
       dynamicBoxes.forEach((box) => {
         const fixture = box.GetFixtureList();
@@ -145,8 +156,14 @@ class Canvas {
     });
 
     this.app.canvas.addEventListener("pointermove", (event: MouseEvent) => {
-      mouseX = event.offsetX / 30;
-      mouseY = event.offsetY / 30;
+      let canvasWidth = 610;
+      if (this.canvas.offsetWidth >= 610) {
+        canvasWidth = 610;
+      } else {
+        canvasWidth = this.canvas.offsetWidth;
+      }
+      mouseX = event.offsetX / (canvasWidth / 21);
+      mouseY = event.offsetY / (canvasWidth / 21);
 
       let isHovering = false;
 
@@ -274,6 +291,27 @@ class Canvas {
 
     return body;
   }
+
+  addEvents = (nativeElement: HTMLElement) => {
+    window?.addEventListener("resize", () => this.handleResize(nativeElement));
+  };
+
+  handleResize = (nativeElement: HTMLElement) => {
+    if (!nativeElement || !this.app) return;
+
+    const newWidth = nativeElement.offsetWidth;
+
+    if (newWidth <= 600) {
+      this.scaleX = newWidth / 610;
+      this.scaleY = 600 / newWidth;
+
+      this.app.renderer.resize(newWidth, newWidth * this.scaleX * this.scaleY);
+      this.app.stage.scale.set(this.scaleX);
+    } else {
+      this.app.renderer.resize(610, 600);
+      this.app.stage.scale.set(1);
+    }
+  };
 }
 
 const cavnas = new Canvas();
