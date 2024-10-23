@@ -60,8 +60,8 @@ class Canvas {
       await this.app.init({
         width: 610,
         height: 600,
-        backgroundColor: "green",
-        backgroundAlpha: 1,
+        backgroundColor: "transparent",
+        backgroundAlpha: 0,
         antialias: true,
       });
       if (this.canvas) {
